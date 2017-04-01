@@ -1,0 +1,69 @@
+<?php
+
+$variables = array();	//will see
+
+include "functions.php"; //it holds all the functions
+
+initialize(/*&$variables*/); //set the header and database connection
+
+if(isset($_GET['page'])) {
+	$variables = $_GET['page'];
+}
+else {
+	$variables = 'login';
+	}
+
+switch ($variables) {
+	case 'signup':
+		display_signup();
+		signup_check($forum);
+		display_error($errors);
+		user_into_db($forum, $errors);
+		if (count($errors) == 0 && isset($_POST['user1'])) {
+			echo '<div class="main">Your registration was succesfull, you can start posting :)</div>';
+		}
+		break;
+	case 'topics':
+		display_signedin();
+		display_title("Topics");
+		display_topics_head();
+		create_topic($forum);
+		display_error($errors);
+		display_topics_body($forum);
+		break;
+
+	case 'posts':
+		display_signedin();
+		display_back();
+		display_posts($forum);
+		break;
+
+	case 'create_post':
+		display_signedin();
+		display_back();
+		display_title("New comment");
+		create_comment($forum);
+		break;
+
+	case 'delete':
+		delete_post($forum);
+		break;
+
+	case 'delete_topic':
+		delete_topic($forum);
+		break;
+
+	default:
+		display_login_form();
+		login_check($forum);
+		display_error($errors);
+		if (count($errors) == 0 && isset($_POST['userlog'])) {
+			header('Location: index.php?page=topics');
+			session_start();
+			$_SESSION['signed_in'] = $_POST['userlog'];
+		}
+		break;
+}
+
+footer();
+?>
