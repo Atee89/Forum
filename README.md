@@ -9,3 +9,4 @@ index.php //generate the website based on the functions in the function.php
 functions.php //all the functions creating the website
 forumstyle.css //formating the surface of the page
 signout.php //just a session destroy, which called by a function
+SQL dump //phpMyAdmin dump about the DB, which was used to create the site
